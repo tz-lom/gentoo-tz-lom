@@ -1,0 +1,21 @@
+*** xmlcopyeditor/src/Makefile.am	2020-08-18 19:31:31.000000000 +0200
+--- xmlcopyeditor-patch/src/Makefile.am	2022-02-23 11:55:25.275610000 +0100
+***************
+*** 9,16 ****
+  bin_PROGRAMS = xmlcopyeditor
+  bindir = ${prefix}/bin
+  xmlcopyeditordir = ${prefix}/share/xmlcopyeditor
+! pixmapdir = /usr/share/pixmaps
+! applicationsdir = /usr/share/applications
+  
+  # the application source, library search path, and link libraries
+  xmlcopyeditor_SOURCES = aboutdialog.cpp \
+--- 9,16 ----
+  bin_PROGRAMS = xmlcopyeditor
+  bindir = ${prefix}/bin
+  xmlcopyeditordir = ${prefix}/share/xmlcopyeditor
+! pixmapdir = ${prefix}/usr/share/pixmaps
+! applicationsdir = ${prefix}/usr/share/applications
+  
+  # the application source, library search path, and link libraries
+  xmlcopyeditor_SOURCES = aboutdialog.cpp \

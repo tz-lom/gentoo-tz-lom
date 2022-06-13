@@ -1,0 +1,19 @@
+*** polkit-b10a1bdb697045db40774f2a9a8c58ae5c7189c3/meson.build	2022-02-21 09:38:12.000000000 +0100
+--- polkit-patched/meson.build	2022-03-10 22:28:33.254583000 +0100
+***************
+*** 342,355 ****
+    configuration: config_h,
+  )
+  
+- meson.add_install_script(
+-   'meson_post_install.py',
+-   get_option('bindir'),
+-   pk_pkgdatadir,
+-   pk_libprivdir,
+-   pk_pkgsysconfdir,
+-   polkitd_user,
+- )
+  
+  output = '\n        ' + meson.project_name() + ' ' + meson.project_version() + '\n'
+  output += '        ============\n\n'
+--- 342,347 ----

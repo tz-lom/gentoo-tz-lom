@@ -1,20 +1,15 @@
 # Copyright 1999-2022 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=8
+EAPI=7
 
-PYTHON_COMPAT=( python3_{8..10} )
-inherit meson pam pax-utils python-any-r1 systemd xdg-utils
+inherit meson pam pax-utils systemd xdg-utils
 
 DESCRIPTION="Policy framework for controlling privileges for system-wide services"
 HOMEPAGE="https://www.freedesktop.org/wiki/Software/polkit https://gitlab.freedesktop.org/polkit/polkit"
 if [[ ${PV} == *_p* ]] ; then
-	# Upstream don't make releases very often. Test snapshots throughly
-	# and review commits, but don't shy away if there's useful stuff there
-	# we want.
-	MY_COMMIT="c5c6b784221b9dc054548c15e94719c4e961a7f2"
+	MY_COMMIT="b10a1bdb697045db40774f2a9a8c58ae5c7189c3"
 	SRC_URI="https://gitlab.freedesktop.org/polkit/polkit/-/archive/${MY_COMMIT}/polkit-${MY_COMMIT}.tar.bz2 -> ${P}.tar.bz2"
-
 	S="${WORKDIR}"/${PN}-${MY_COMMIT}
 else
 	SRC_URI="https://www.freedesktop.org/software/${PN}/releases/${P}.tar.gz"
@@ -22,15 +17,12 @@ fi
 
 LICENSE="LGPL-2"
 SLOT="0"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~mips ~ppc ~ppc64 ~riscv ~sparc ~x86"
+KEYWORDS="~amd64 ~arm ~arm64 ~hppa ~mips ~ppc ~ppc64 ~riscv ~s390 ~x86"
 IUSE="+duktape examples gtk +introspection kde pam selinux systemd test"
-if [[ ${PV} == *_p* ]] ; then
-	RESTRICT="!test? ( test )"
-else
-	# Tests currently don't work with meson in the dist tarballs. See
-	#  https://gitlab.freedesktop.org/polkit/polkit/-/issues/144
-	RESTRICT="test"
-fi
+#RESTRICT="!test? ( test )"
+# Tests currently don't work with meson. See
+#   https://gitlab.freedesktop.org/polkit/polkit/-/issues/144
+RESTRICT="test"
 
 BDEPEND="
 	acct-user/polkitd
@@ -43,12 +35,6 @@ BDEPEND="
 	sys-devel/gettext
 	virtual/pkgconfig
 	introspection? ( dev-libs/gobject-introspection )
-	test? (
-		$(python_gen_any_dep '
-			dev-python/dbus-python[${PYTHON_USEDEP}]
-			dev-python/python-dbusmock[${PYTHON_USEDEP}]
-		')
-	)
 "
 DEPEND="
 	dev-libs/glib:2
@@ -75,24 +61,18 @@ PDEPEND="
 	kde? ( kde-plasma/polkit-kde-agent )
 "
 
-DOCS=( docs/TODO HACKING.md NEWS.md README.md )
+DOCS=( docs/TODO HACKING NEWS README )
 
-QA_MULTILIB_PATHS="usr/lib/polkit-1/polkit-agent-helper-1
+QA_MULTILIB_PATHS="
+	usr/lib/polkit-1/polkit-agent-helper-1
 	usr/lib/polkit-1/polkitd"
-
-python_check_deps() {
-	python_has_version "dev-python/dbus-python[${PYTHON_USEDEP}]" &&
-	python_has_version "dev-python/python-dbusmock[${PYTHON_USEDEP}]"
-}
-
-pkg_setup() {
-	use test && python-any-r1_pkg_setup
-}
 
 src_prepare() {
 	local PATCHES=(
 		# musl
-		"${FILESDIR}"/${PN}-0.120_p20220509-make-netgroup-support-optional.patch
+		"${FILESDIR}"/${PN}-0.118-make-netgroup-support-optional.patch
+		# Pending upstream
+		"${FILESDIR}"/${PN}-0.120-meson.patch
 	)
 
 	default
@@ -136,11 +116,11 @@ src_install() {
 		dodoc src/examples/{*.c,*.policy*}
 	fi
 
-#	diropts -m 0700 -o polkitd
+	diropts -m 0700 -o polkitd
 	keepdir /usr/share/polkit-1/rules.d
 }
 
-#pkg_postinst() {
-#	chmod 0700 "${EROOT}"/{etc,usr/share}/polkit-1/rules.d
-#	chown polkitd "${EROOT}"/{etc,usr/share}/polkit-1/rules.d
-#}
+pkg_postinst() {
+	chmod 0700 "${EROOT}"/{etc,usr/share}/polkit-1/rules.d
+	chown polkitd "${EROOT}"/{etc,usr/share}/polkit-1/rules.d
+}

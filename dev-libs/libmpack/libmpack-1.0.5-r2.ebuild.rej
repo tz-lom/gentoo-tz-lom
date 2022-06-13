@@ -1,0 +1,24 @@
+--- libmpack-1.0.5-r2.ebuild
++++ libmpack-1.0.5-r2.ebuild
+@@ -29,7 +29,8 @@ src_compile() {
+                "PREFIX=${EPREFIX}/usr"
+                "CC=$(tc-getCC)"
+                "config=release"
+-               "LIBDIR=/usr/$(get_libdir)"
++               "LIBDIR=${EPREFIX}/usr/$(get_libdir)"
++               "INCDIR=${EPREFIX}/usr/include"
+        )
+ 
+        emake "${myemakeargs[@]}" lib-bin
+@@ -42,8 +43,9 @@ src_test() {
+ src_install() {
+        local myemakeargs=(
+                "PREFIX=${EPREFIX}/usr"
+-               "DESTDIR=${ED}"
+-               "LIBDIR=/usr/$(get_libdir)"
++               "DESTDIR=${D}"
++               "LIBDIR=${EPREFIX}/usr/$(get_libdir)"
++               "INCDIR=${EPREFIX}/usr/include"
+                "XLDFLAGS=-shared"
+        )
+ 

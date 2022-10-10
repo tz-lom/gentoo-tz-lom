@@ -146,7 +146,3 @@ src_install() {
 	keepdir /usr/share/polkit-1/rules.d
 }
 
-pkg_postinst() {
-	chmod 0700 "${EROOT}"/{etc,usr/share}/polkit-1/rules.d
-	chown polkitd "${EROOT}"/{etc,usr/share}/polkit-1/rules.d
-}

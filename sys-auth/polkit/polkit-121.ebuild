@@ -142,7 +142,6 @@ src_install() {
 		dodoc src/examples/{*.c,*.policy*}
 	fi
 
-	diropts -m 0700 -o polkitd
 	keepdir /usr/share/polkit-1/rules.d
 }
 

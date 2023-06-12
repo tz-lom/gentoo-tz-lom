@@ -15,7 +15,7 @@ LICENSE="PyCharm_Academic PyCharm_Classroom PyCharm PyCharm_OpenSource PyCharm_P
 SLOT="0"
 KEYWORDS="amd64 x86"
 IUSE="+bundled-jdk"
-RESTRICT="mirror"
+RESTRICT="mirror splitdebug"
 
 RDEPEND="!bundled-jdk? ( >=virtual/jre-1.8 )
 	dev-python/pip

@@ -366,6 +366,13 @@ relocate_path() {
 	done
 }
 
+patch_ld() {
+ 	for file in "$@"
+ 	do
+ 		patchelf --set-interpreter "${EPREFIX}/lib64/ld-linux-x86-64.so.2" "$file"
+ 	done
+}
+
 # changes hardcoded ghc paths and updates package index
 # $1 - new absolute root path
 # $2 - ghc version unpacked in ${WORKDIR}
@@ -417,6 +424,7 @@ relocate_ghc() {
 
 	if use prefix; then
 		hprefixify "${bin_libpath}"/${PN}*/settings
+		patch_ld "${bin_libpath}"/${PN}*/bin/*
 	fi
 
 	# regenerate the binary package cache

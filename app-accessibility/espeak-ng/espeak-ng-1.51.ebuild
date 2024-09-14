@@ -74,6 +74,6 @@ src_test() {
 }
 
 src_install() {
-	emake DESTDIR="${D}" VIMDIR=/usr/share/vim/vimfiles install -j1
+	emake DESTDIR="${D}" VIMDIR=${EPREFIX}/usr/share/vim/vimfiles install -j1
 	find "${ED}" -name '*.la' -delete  || die
 }

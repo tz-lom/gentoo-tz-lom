@@ -82,6 +82,7 @@ QA_MULTILIB_PATHS="
 
 PATCHES=(
 	"${FILESDIR}"/${P}-musl.patch
+	"${FILESDIR}"/${P}-eprefix.patch
 )
 
 python_check_deps() {

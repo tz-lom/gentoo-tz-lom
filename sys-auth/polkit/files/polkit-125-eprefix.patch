@@ -1,0 +1,15 @@
+diff --git a/meson.build b/meson.build
+index 302c189..3f31d28 100644
+--- a/meson.build
++++ b/meson.build
+@@ -218,8 +218,8 @@ else
+   if systemdsystemunitdir == ''
+     systemdsystemunitdir = '/usr/lib/systemd/system'
+   endif
+-  sysusers_dir = '/usr/lib/sysusers.d'
+-  tmpfiles_dir = '/usr/lib/tmpfiles.d'
++  sysusers_dir = pk_prefix / 'lib/sysusers.d'
++  tmpfiles_dir = pk_prefix / 'lib/tmpfiles.d'
+ endif
+ 
+ # User for running polkitd

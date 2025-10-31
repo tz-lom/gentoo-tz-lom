@@ -17,6 +17,7 @@ KEYWORDS="amd64 ~arm arm64 ~loong ppc64 ~riscv x86"
 IUSE="gtk-doc selinux test video_cards_amdgpu video_cards_nouveau"
 REQUIRED_USE="${PYTHON_REQUIRED_USE}"
 
+
 RDEPEND="${PYTHON_DEPS}
 	$(python_gen_cond_dep 'dev-python/pygobject:3[${PYTHON_USEDEP}]')
 	>=dev-libs/glib-2.56.0:2
@@ -55,7 +56,7 @@ src_prepare() {
 
 src_configure() {
 	local emesonargs=(
-		-Drulesdir="$(get_udevdir)"/rules.d
+		-Drulesdir="${EPREFIX}/$(get_udevdir)"/rules.d
 		-Dsystemdsystemunitdir="$(systemd_get_systemunitdir)"
 		$(meson_use gtk-doc gtk_doc)
 		$(meson_use test tests)
